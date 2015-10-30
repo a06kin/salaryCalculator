@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SalaryCalculator</title>
+</head>
+<body>
+<div>
+    <input id="overall" type="number" step="any" placeholder="overall" onchange="netCalculation()">
+
+    <p id="overallValue"></p>
+    <p id="netValue"></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.js"></script>
+</div>
+<script>
+    function netCalculation() {
+        //TODO: onchange - w8 till stop typing
+
+        var overall = document.getElementById("overall").value;
+        document.getElementById("overallValue").innerHTML = "Overall value = " + overall;
+
+        $.post('/overall/' + overall, null, function(response){
+            document.getElementById("netValue").innerHTML = "Net value = " + response;
+        });
+    }
+
+</script>
+</body>
+</html>
