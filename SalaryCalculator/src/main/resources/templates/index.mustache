@@ -6,9 +6,14 @@
 </head>
 <body>
 <div>
-    <input id="overall" type="number" step="any" placeholder="overall" onchange="netCalculation()">
+    <input id="overall" type="number" step="any" placeholder="overall">
+
+    <input id="dependents" type="number" placeholder="dependents">
+
+    <button onclick="netCalculation();">Calculate</button>
 
     <p id="overallValue"></p>
+    <p id="dependentValue"></p>
     <p id="netValue"></p>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.js"></script>
 </div>
@@ -17,9 +22,14 @@
         //TODO: onchange - w8 till stop typing
 
         var overall = document.getElementById("overall").value;
+        var dependents = document.getElementById("dependents").value;
         document.getElementById("overallValue").innerHTML = "Overall value = " + overall;
+        document.getElementById("dependentValue").innerHTML = "Dependent value = " + dependents;
 
-        $.post('/overall/' + overall, null, function(response){
+        var request = '/overall/' + overall
+                    + '/dependents/' + dependents;
+
+        $.post(request, null, function(response){
             document.getElementById("netValue").innerHTML = "Net value = " + response;
         });
     }

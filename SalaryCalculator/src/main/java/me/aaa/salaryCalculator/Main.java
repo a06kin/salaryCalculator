@@ -7,19 +7,26 @@ import spark.template.mustache.MustacheTemplateEngine;
 import static spark.Spark.*;
 
 public class Main implements SparkApplication {
+    public static double PIT = 0.23; //Personal Income Tax
+    public static double FMN = 0.1005; //Fucking Magic number
+    public static double FMN2 = 75; //Fucking Magic number 2
+    public static double RFD = 165; //Relief for dependents
+
     @Override
     public void init() {
         get("/", (req, res) -> new ModelAndView(null, "index.mustache"), new MustacheTemplateEngine());
 
-        post("/overall/:overall", (request, response) ->
-                calculateNet(request.params(":overall")));
+        post("/overall/:overall/dependents/:dependents", (request, response) ->
+                calculateNet(request.params(":overall"), request.params(":dependents")));
     }
 
-    public double calculateNet(String overallStr){
+    public double calculateNet(String overallStr, String dependentsStr){
         try {
             double overall = Double.parseDouble(overallStr);
-            double social = overall * 0.1005;
-            double IIN = (overall - social - 75) * 0.23;
+            int dependents = Integer.parseInt(dependentsStr);
+            double social = overall * FMN;
+            double IIN = (overall - social - FMN2) * PIT;
+            //TODO: dependents * RFD
             return overall - social - IIN;
         }catch (NumberFormatException e){
             return 0f;
