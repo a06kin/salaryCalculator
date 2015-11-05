@@ -30,7 +30,8 @@
                     + '/dependents/' + dependents;
 
         $.post(request, null, function(response){
-            document.getElementById("netValue").innerHTML = "Net value = " + response;
+            console.log(response);
+            document.getElementById("netValue").innerHTML = "Result value = " + response;
         });
     }
 
